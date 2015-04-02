@@ -1,5 +1,5 @@
 'use strict';
-var TotalTablesApp = angular.module('TotalTablesApp', ['ngResource','ngRoute', 'ngStorage', 'ui.sortable', 'ui.tree']);
+var TotalTablesApp = angular.module('TotalTablesApp', ['ngResource','ngRoute', 'ngStorage', 'ui.sortable', 'ui.tree', 'ui-notification']);
 TotalTablesApp.config(['$routeProvider', '$locationProvider',function ($routeProvider, $locationProvider) {
 		 //  $locationProvider.html5Mode({
 			//   enabled: true,
@@ -33,7 +33,7 @@ TotalTablesApp.filter('getByYear', function() {
 	var i=0, len=input.length;
 	for (; i<len; i++) {
 	  if (input[i]._id == year) {
-	    return input[i].tables;
+	    return input[i];
 	  }
 	}
 	return null;
@@ -47,7 +47,7 @@ TotalTablesApp.config( [
         // Angular before v1.2 uses $compileProvider.urlSanitizationWhitelist(...)
     }
 ]);
- TotalTablesApp.factory('MongoTables', function ($resource) {
+TotalTablesApp.factory('MongoTables', function ($resource) {
     var MongoTables = $resource('https://api.mongolab.com/api/1/databases/table_gun_db/collections/tables/:id',
     {
       apiKey:'4uxrgilMV5QDHqsTP4UdsWG7B8E66KZ1',

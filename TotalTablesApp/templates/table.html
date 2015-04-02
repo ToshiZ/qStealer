@@ -25,8 +25,8 @@
                     <button class="button button-mini right" ng-click="removeCommad(row.command)">X</button>
                 </td>
                 <td ng-repeat="field in table.tourHeaders">
-                    <input type="number" min="0" ng-model="row.tours[field][0]"> <strong>:</strong>
-                    <input type="number" min="0" ng-model="row.tours[field][1]">
+                    <input type="number" min="0" ng-model="row.tours[field][0]" ng-change="changing()"> <strong>:</strong>
+                    <input type="number" min="0" ng-model="row.tours[field][1]" ng-change="changing()">
                 </td>
             </tr>
             <tr>
@@ -37,4 +37,5 @@
                 </td>
             </tr>
     </table>
+    <button ng-show="changed" class="button button-large" ng-click="saveToCloud()">Сохранить</button>
 </div>
