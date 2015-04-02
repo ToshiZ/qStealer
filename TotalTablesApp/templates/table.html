@@ -1,0 +1,40 @@
+<div ng-init="tablesInit()" class="span12">
+    <h2>{{$storage.translater[country]| uppercase}}</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th></th>
+                <th ng-repeat="field in table.tourHeaders">
+                    {{field}}
+                    <button class="button button-mini right" ng-click="removeTour(field)">X</button>
+                </th>
+                <th>
+                    <form ng-submit="addTour()">
+                        <input type="date" ng-model="newTour" placeholder="Новый тур">
+                        <button ng-hide="true" class="button button-mini right" ng-submit="addTour()">
+                            <span class="font-icon-plus"></span>
+                        </button>
+                    </form>
+                </th>
+            </tr>
+        </thead>
+        <tbody ui-sortable="sortableOptions" ng-model="table.games">
+            <tr ng-repeat="row in table.games">
+                <td>
+                    {{row.command}}
+                    <button class="button button-mini right" ng-click="removeCommad(row.command)">X</button>
+                </td>
+                <td ng-repeat="field in table.tourHeaders">
+                    <input type="number" min="0" ng-model="row.tours[field][0]"> <strong>:</strong>
+                    <input type="number" min="0" ng-model="row.tours[field][1]">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <form ng-submit="addCommand()">
+                        <input type="text" ng-model="newCommand" placeholder="Новая команда">
+                    </form>
+                </td>
+            </tr>
+    </table>
+</div>

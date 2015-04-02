@@ -1,0 +1,18 @@
+{
+    "manifest_version": 2,
+
+    "name": "tableGun",
+    "version": "1.0",
+
+    "icons": {        
+        "128": "128x128.png"
+    },
+	"background" : {
+        "page": "background.html"
+    },
+    "browser_action": {
+        "default_title": "tableGun",
+        "default_icon": "128x128.png"
+   },
+    "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
+ }
