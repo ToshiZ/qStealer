@@ -694,6 +694,9 @@ nav#menu #menu-nav li a:hover {
 .work-nav #filters li a.selected {
 	color: #DE5E60;
 }
+td.selected {
+	background: #DE5E60;
+}
 
 #thumbs {
 	margin: 0;
@@ -1432,4 +1435,6 @@ table.compact td{
 	text-align: center;
 	width: 20px;
 }
-
+input.slim{
+	width: 30px;
+}

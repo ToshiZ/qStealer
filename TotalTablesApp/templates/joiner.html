@@ -12,7 +12,7 @@
         </thead>
          <tbody ui-tree-nodes ng-model="tablesByYear">    
             <tr ng-repeat-start="table in tablesByYear" ui-tree-node>
-                <td ui-tree-handle ng-mouseup="refreshTotals()" rowspan="{{table.games.length + 1}}">
+                <td ui-tree-handle ng-mouseup="dragStop()" rowspan="{{table.games.length + 1}}">
                     {{$storage.translater[table.country]}}
                 </td>
             </tr>
@@ -55,5 +55,5 @@
             </tfoot>
         </tbody>
     </table>
-    <button class="button button-large" ng-click="saveToCloud()">Сохранить</button>
+   <button ng-show="changed" class="button button-large" ng-click="saveToCloud($storage.currentYear)">Сохранить порядок</button>
 </div>

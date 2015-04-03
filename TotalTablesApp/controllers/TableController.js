@@ -79,4 +79,17 @@ angular.module('TotalTablesApp')
         $scope.$on("$destroy", function(){
             $scope.saveToCloud($scope.$storage.currentYear);
         });
+        $scope.sortableOptions = {
+            stop: $scope.changing(),
+            axis: 'y'
+        };
+        $scope.selectTour = function(t, game, games, e){
+            if(e.target.nodeName == 'TD'){
+                for(var g in games){
+                    
+                }
+                t['clicked'] = t['clicked'] == undefined? true: (t['clicked']? false: true);
+                $scope.changing();
+            }
+        };
 	}]);

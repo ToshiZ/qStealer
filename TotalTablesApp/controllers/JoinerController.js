@@ -2,6 +2,7 @@
 angular.module('TotalTablesApp')
 	.controller('JoinerController', ['$scope', '$localStorage', 'MongoTables', '$http', 'Notification', '$filter', function($scope, $localStorage, MongoTables, $http, Notification, $filter){
         $scope.getAllTours = function(){
+            $scope.changed = false;
             $scope.allTours = [];
             $scope.$storage = $localStorage;
             if($scope.$storage.currentYear){
@@ -85,11 +86,37 @@ angular.module('TotalTablesApp')
                 return new Date(a) - new Date(b);
             });
         };
+        $scope.dragStop = function(){
+            $scope.changed = true;
+            $scope.refreshTotals();
+        };
         $scope.strToDate = function(str){
             var d = new Date(str);
             return (d.getDate()) + '/' + (d.getMonth() + 1); 
         };
         $scope.getInt = function(t){
             return parseInt(t);
-        };        
+        }; 
+        $scope.saveToCloud = function (year) {
+            if($scope.$storage.currentYear){
+                if($scope.changed){
+                    $scope.tablesByYear.updateAt = new Date();
+                    $http.put('https://api.mongolab.com/api/1/databases/table_gun_db/collections/tables/' + 
+                           year + '?apiKey=4uxrgilMV5QDHqsTP4UdsWG7B8E66KZ1',
+                        { 
+                        year: year,
+                        updateAt: $scope.tablesByYear.updateAt,
+                        tables: $scope.$storage.tables
+                        }).success(function (data, status, headers, config) {
+                             Notification.success({message: 'Сохранен в облако.', title: year});
+                             $scope.changed = false;
+                        }).error(function (data, status, headers, config) { 
+                            Notification.error({message: status, title: year});
+                        });
+                    }
+                }
+        };
+        $scope.$on("$destroy", function(){
+            $scope.saveToCloud($scope.$storage.currentYear);
+        });       
 }]);
