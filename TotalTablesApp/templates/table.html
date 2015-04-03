@@ -1,17 +1,17 @@
 <div ng-init="tablesInit()" class="span12">
-    <h2>{{$storage.translater[country]| uppercase}}</h2>
+    <h2>{{$storage.translater[country]| uppercase}}({{$storage.currentYear}})</h2>
     <table border="1">
         <thead>
             <tr>
                 <th></th>
                 <th ng-repeat="field in table.tourHeaders">
-                    {{field}}
+                    {{strToDate(field)}}
                     <button class="button button-mini right" ng-click="removeTour(field)">X</button>
                 </th>
                 <th>
                     <form ng-submit="addTour()">
                         <input type="date" ng-model="newTour" placeholder="Новый тур">
-                        <button ng-hide="true" class="button button-mini right" ng-submit="addTour()">
+                        <button class="button button-mini right" ng-submit>
                             <span class="font-icon-plus"></span>
                         </button>
                     </form>
@@ -33,9 +33,12 @@
                 <td>
                     <form ng-submit="addCommand()">
                         <input type="text" ng-model="newCommand" placeholder="Новая команда">
+                         <button class="button button-mini right" ng-submit>
+                            <span class="font-icon-plus"></span>
+                        </button>
                     </form>
                 </td>
             </tr>
     </table>
-    <button ng-show="changed" class="button button-large" ng-click="saveToCloud()">Сохранить</button>
+    <button ng-show="changed" class="button button-large" ng-click="saveToCloud($storage.currentYear)">Сохранить</button>
 </div>

@@ -1428,4 +1428,8 @@ input[type="number"]{
     border-radius: 5px;
     text-align: center;
 }
+table.compact td{
+	text-align: center;
+	width: 20px;
+}
 

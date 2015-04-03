@@ -2,7 +2,7 @@
 angular.module('TotalTablesApp')
 	.controller('MainController', ['$scope', '$localStorage', 'MongoTables', '$http', '$filter', 'Notification', function($scope, $localStorage, MongoTables, $http, $filter, Notification){
 		 $scope.$storage = $localStorage.$default({
-            tables: defaultTabs,
+           // tables: defaultTabs,
              order: ['england', 'germany', 'italy', 'spain', 'france'],
              translater: {
                  england: 'Англия',
@@ -57,9 +57,9 @@ angular.module('TotalTablesApp')
             $http.put('https://api.mongolab.com/api/1/databases/table_gun_db/collections/tables/' + 
                    year + '?apiKey=4uxrgilMV5QDHqsTP4UdsWG7B8E66KZ1',
                 { 
-                year: year,  
-                updateAt: $filter('getByYear')($scope.$storage.mongoTabs, $scope.$storage.currentYear).updateAt,   
-                tables: $scope.$storage.tables
+                    year: year,  
+                    updateAt: $filter('getByYear')($scope.$storage.mongoTabs, $scope.$storage.currentYear).updateAt,   
+                    tables: $scope.$storage.tables
                 }).success(function (data, status, headers, config) {
                      Notification.success({message: 'Сохранен в облако.', title: year});
                 }).error(function (data, status, headers, config) { 

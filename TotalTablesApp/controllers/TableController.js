@@ -12,13 +12,17 @@ angular.module('TotalTablesApp')
                 Notification.error('Не выбран год.');
             }   
         };
+        $scope.strToDate = function(str){
+            var d = new Date(str);
+            return (d.getDate()) + '/' + (d.getMonth() + 1); 
+        };
         $scope.changing = function(){
             $scope.changed = true;
         };
         $scope.addTour = function(){
             if($scope.table.tourHeaders.indexOf($scope.newTour.toDateString()) != -1){
                 $scope.newTour = '';
-                Notification.warning('Такая команда уже есть.');
+                Notification.warning('Такой тур уже есть.');
             }else{
                 $scope.table.tourHeaders.push($scope.newTour.toDateString());
                 $scope.table.tourHeaders.sort(function(a,b){
@@ -31,7 +35,7 @@ angular.module('TotalTablesApp')
         $scope.addCommand = function(){
             if($scope.table.commands.indexOf($scope.newCommand) != -1){
                 $scope.newCommand = '';
-                Notification.warning('Такой тур уже есть.');
+                Notification.warning('Такая команда уже есть.');
             }else{
                 $scope.table.commands.push($scope.newCommand.trim());
                 $scope.table.games.push({command: $scope.newCommand.trim(), tours: {}});

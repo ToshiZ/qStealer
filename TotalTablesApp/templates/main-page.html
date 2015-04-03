@@ -1,5 +1,8 @@
-<p ng-init="syncWithMongo()"><h1>Архив</h1></p>
-<div ng-repeat="year in $storage.mongoTabs | orderBy: '_id'" class="span">
+<div ng-init="syncWithMongo()" class="span12">
+	<h1>АРХИВ</h1>
+</div>
+<div class="row"></div>
+<div  ng-repeat="year in $storage.mongoTabs | orderBy: '_id'" class="span">
 	<div  class="accordion-group inline">
 		<div class="accordion-heading accordionize ">
 			<a ng-class="year._id == $storage.currentYear? 'accordion-toggle selected' : 'accordion-toggle'" data-toggle="collapse" ng-click="setYear(year._id)">
