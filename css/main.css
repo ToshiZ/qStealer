@@ -697,6 +697,9 @@ nav#menu #menu-nav li a:hover {
 td.selected {
 	background: #DE5E60;
 }
+th.selected {
+	background: #DE5E60;
+}
 
 #thumbs {
 	margin: 0;
@@ -1441,4 +1444,38 @@ input.slim{
 }
 form.table{
 	margin: 0;
+}
+table.altrowstable {
+	/*font-family: verdana,arial,sans-serif;*/
+	font-size:15px;
+	color:#333333;
+	border-width: 1px;
+	border-color: #a9c6c9;
+	border-collapse: collapse;
+}
+table.altrowstable th {
+	border-width: 1px;
+	padding: 2px;
+	border-style: solid;
+	border-color: #a9c6c9;
+}
+table.altrowstable td {
+	border-width: 1px;
+	padding: 2px;
+	border-style: solid;
+	border-color: #a9c6c9;
+}
+.oddrowcolor{
+	background-color:#d4e3e5;
+}
+.evenrowcolor{
+	background-color:#c3dde0;
+}
+.row-standart{
+	background-color: #D8E1E3; 
+}
+[ng-click],
+[data-ng-click],
+[x-ng-click] {
+    cursor: pointer;
 }

@@ -108,13 +108,16 @@ angular.module('TotalTablesApp')
                         updateAt: $scope.tablesByYear.updateAt,
                         tables: $scope.$storage.tables
                         }).success(function (data, status, headers, config) {
-                             Notification.success({message: 'Сохранен в облако.', title: year});
+                             Notification.info({message: 'Сохранен в облако.', title: year});
                              $scope.changed = false;
                         }).error(function (data, status, headers, config) { 
                             Notification.error({message: status, title: year});
                         });
                     }
                 }
+        };
+        $scope.selectTour = function(tour){
+            $scope.selectedTour = tour;
         };
         $scope.$on("$destroy", function(){
             $scope.saveToCloud($scope.$storage.currentYear);

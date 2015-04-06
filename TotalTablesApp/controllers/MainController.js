@@ -30,7 +30,7 @@ angular.module('TotalTablesApp')
                         }
                         if(!find){
                             $scope.$storage.mongoTabs.push(data[d]);
-                            Notification.info({message: 'Загружен из облака(новый).', title: data[d]._id});
+                            Notification.success({message: 'Загружен из облака(новый).', title: data[d]._id});
                         }
                     }
                 }else{
@@ -61,7 +61,7 @@ angular.module('TotalTablesApp')
                     updateAt: $filter('getByYear')($scope.$storage.mongoTabs, $scope.$storage.currentYear).updateAt,   
                     tables: $scope.$storage.tables
                 }).success(function (data, status, headers, config) {
-                     Notification.success({message: 'Сохранен в облако.', title: year});
+                     Notification.info({message: 'Сохранен в облако.', title: year});
                 }).error(function (data, status, headers, config) { 
                     Notification.error({message: status, title: year});
                 });

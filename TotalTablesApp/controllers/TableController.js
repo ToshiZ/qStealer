@@ -68,7 +68,7 @@ angular.module('TotalTablesApp')
                         updateAt: $scope.tablesByYear.updateAt,
                         tables: $scope.$storage.tables
                         }).success(function (data, status, headers, config) {
-                             Notification.success({message: 'Сохранен в облако.', title: year});
+                             Notification.info({message: 'Сохранен в облако.', title: year});
                              $scope.changed = false;
                         }).error(function (data, status, headers, config) { 
                             Notification.error({message: status, title: year});
@@ -85,7 +85,7 @@ angular.module('TotalTablesApp')
         };
         $scope.selectTour = function(t, game, games, e, field){
             if(e.target.nodeName == 'TD'){
-                $scope.clearSelected();
+                // /$scope.clearSelected();
                 for(var tt = 0; (new Date($scope.table.tourHeaders[tt])) < (new Date(field)); tt++){
                     for(var g in games){
                             games[g].tours[$scope.table.tourHeaders[tt]]['clicked'] = true; 

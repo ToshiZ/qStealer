@@ -1,23 +1,22 @@
 <div ng-init="getAllTours()" class="span24">
     <h2>Сводная таблица({{$storage.currentYear}})</h2>
-    <table border="1" class="compact" ui-tree>
+    <table class="compact altrowstable" ui-tree>
         <thead>
             <tr>
-                <th>Страна</th>
-                <!-- <th>Команда</th> -->
-                <th ng-repeat="tour in allTours">
+                <th class="row-standart">Страна</th>
+                <th ng-repeat="tour in allTours" ng-class-odd="'oddrowcolor'" ng-class-even="'evenrowcolor'" ng-click="selectTour(tour)" ng-class="selectedTour == tour? 'selected':''">
                     {{strToDate(tour)}}
                 </th>
             </tr>
         </thead>
          <tbody ui-tree-nodes ng-model="tablesByYear">    
-            <tr ng-repeat-start="table in tablesByYear" ui-tree-node>
+            <tr ng-repeat-start="table in tablesByYear" ui-tree-node ng-class-odd="'oddrowcolor'" ng-class-even="'evenrowcolor'">
                 <td ui-tree-handle ng-mouseup="dragStop()" rowspan="{{table.games.length + 1}}">
                     {{$storage.translater[table.country]}}
                 </td>
             </tr>
-                <tr ng-repeat-start="g in table.games">
-                    <td ng-repeat="t in allTours">
+                <tr ng-repeat-start="g in table.games" >
+                    <td ng-repeat="t in allTours" ng-class-odd="'oddrowcolor'" ng-class-even="'evenrowcolor'">
                         <span ng-show="!g.tours[t].clicked && (g.tours[t][0] || g.tours[t][1])">{{g.tours[t][0]}}:{{g.tours[t][1]}}</span>
                     </td>
                 </tr>
@@ -25,28 +24,25 @@
             <tr ng-repeat-end ng-hide="true"></tr>
             <tfoot>
                 <tr>
-                    <td>Тоталы больше/меньше</td>
-                    <!-- <td></td>     -->
-                    <td ng-repeat="tour in allTours">
+                    <td class="row-standart">Тоталы больше/меньше</td>
+                    <td ng-repeat="tour in allTours" ng-class-odd="'oddrowcolor'" ng-class-even="'evenrowcolor'">
                         {{totals[tour].bigger2}}/{{totals[tour].less2}}</br>
                     </td>
                 </tr>
                 <tr>
-                    <td>Блоки больше</td>
-                    <!-- <td></td> -->
-                    <td ng-repeat="tour in allTours">
+                    <td class="row-standart">Блоки больше</td>
+                    <td ng-repeat="tour in allTours" ng-class-odd="'oddrowcolor'" ng-class-even="'evenrowcolor'">
                         <span ng-repeat="(bB, count) in totals[tour].allBlocksBigger">
                             {{getInt(bB) + 1}}<sup>{{count}}</sup>                           
                         </span>
                     </td>
                 </tr>
                 <tr>
-                    <td>Блоки меньше</td>
-                    <!-- <td></td> -->
-                    <td ng-repeat="tour in allTours">
-                     <span ng-repeat="(lB, count) in totals[tour].allBlocksLess">
-                        {{getInt(lB) + 1}}<sup>{{count}}</sup>
-                    </span>
+                    <td class="row-standart">Блоки меньше</td>
+                    <td ng-repeat="tour in allTours" ng-class-odd="'oddrowcolor'" ng-class-even="'evenrowcolor'">
+                         <span ng-repeat="(lB, count) in totals[tour].allBlocksLess">
+                            {{getInt(lB) + 1}}<sup>{{count}}</sup>
+                        </span>
                     </td>
                 </tr>
             </tfoot>
