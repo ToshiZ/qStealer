@@ -1437,4 +1437,8 @@ table.compact td{
 }
 input.slim{
 	width: 30px;
+	margin: 0;
+}
+form.table{
+	margin: 0;
 }

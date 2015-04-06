@@ -9,7 +9,7 @@
                     <button class="button button-mini right" ng-click="removeTour(field)">X</button>
                 </th>
                 <th>
-                    <form ng-submit="addTour()">
+                    <form ng-submit="addTour()" class="table">
                         <input type="date" ng-model="newTour" placeholder="Новый тур">
                         <button class="button button-mini right" ng-submit>
                             <span class="font-icon-plus"></span>
@@ -24,14 +24,14 @@
                     {{row.command}}
                     <button class="button button-mini right" ng-click="removeCommad(row.command)">X</button>
                 </td>
-                <td ng-repeat="field in table.tourHeaders" ng-click="selectTour(row.tours[field], row, table.games, $event)" ng-class="row.tours[field]['clicked']? 'selected':''">
-                    <input class="slim" type="number" min="0" ng-model="row.tours[field][0]" ng-change="changing()"> <strong>:</strong>
+                <td ng-repeat="field in table.tourHeaders" ng-click="selectTour(row.tours[field], row, table.games, $event, field)" ng-class="row.tours[field]['clicked']? 'selected':''">
+                    <input class="slim" type="number" min="0" ng-model="row.tours[field][0]" ng-change="changing()">:
                     <input class="slim" type="number" min="0" ng-model="row.tours[field][1]" ng-change="changing()">
                 </td>
             </tr>
             <tr>
                 <td>
-                    <form ng-submit="addCommand()">
+                    <form ng-submit="addCommand()" class="table">
                         <input type="text" ng-model="newCommand" placeholder="Новая команда">
                          <button class="button button-mini right" ng-submit>
                             <span class="font-icon-plus"></span>
@@ -41,4 +41,5 @@
             </tr>
     </table>
     <button ng-show="changed" class="button button-large" ng-click="saveToCloud($storage.currentYear)">Сохранить</button>
+    <button ng-show="changed" class="button button-large" ng-click="clearSelected()">Снять выделение</button>
 </div>

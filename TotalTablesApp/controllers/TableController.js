@@ -83,13 +83,27 @@ angular.module('TotalTablesApp')
             stop: $scope.changing(),
             axis: 'y'
         };
-        $scope.selectTour = function(t, game, games, e){
+        $scope.selectTour = function(t, game, games, e, field){
             if(e.target.nodeName == 'TD'){
+                $scope.clearSelected();
+                for(var tt = 0; (new Date($scope.table.tourHeaders[tt])) < (new Date(field)); tt++){
+                    for(var g in games){
+                            games[g].tours[$scope.table.tourHeaders[tt]]['clicked'] = true; 
+                        }
+                    }
                 for(var g in games){
-                    
+                    if(parseInt(g) < games.indexOf(game))
+                        games[g].tours[field]['clicked'] = true; 
                 }
                 t['clicked'] = t['clicked'] == undefined? true: (t['clicked']? false: true);
                 $scope.changing();
             }
+        };
+        $scope.clearSelected = function(){
+            for(var tt in $scope.table.tourHeaders){
+                    for(var g in $scope.table.games){
+                        $scope.table.games[g].tours[$scope.table.tourHeaders[tt]]['clicked'] = false;
+                    }
+                }
         };
 	}]);

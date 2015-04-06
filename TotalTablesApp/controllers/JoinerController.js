@@ -31,7 +31,7 @@ angular.module('TotalTablesApp')
                                 $scope.totals[tour]['allBlocksLess'] = {};
                             }
                             if($scope.tablesByYear[t].games[g].tours[tour][0] + 
-                                $scope.tablesByYear[t].games[g].tours[tour][1] > 2){
+                                $scope.tablesByYear[t].games[g].tours[tour][1] > 2 && !$scope.tablesByYear[t].games[g].tours[tour].clicked){
                                 $scope.totals[tour].bigger2++;
                                 if($scope.totals[tour].lastBigger){
                                     $scope.totals[tour].blockBigger++;
@@ -48,7 +48,7 @@ angular.module('TotalTablesApp')
                                     $scope.totals[tour].blockLess = 0;
                                 }
                             }else if($scope.tablesByYear[t].games[g].tours[tour][0] + 
-                                        $scope.tablesByYear[t].games[g].tours[tour][1] <= 2){
+                                        $scope.tablesByYear[t].games[g].tours[tour][1] <= 2 && !$scope.tablesByYear[t].games[g].tours[tour].clicked){
                                 $scope.totals[tour].less2++;
                                 if($scope.totals[tour].lastLess){
                                     $scope.totals[tour].blockLess++;

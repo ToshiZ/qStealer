@@ -4,7 +4,7 @@
         <thead>
             <tr>
                 <th>Страна</th>
-                <th>Команда</th>
+                <!-- <th>Команда</th> -->
                 <th ng-repeat="tour in allTours">
                     {{strToDate(tour)}}
                 </th>
@@ -17,11 +17,8 @@
                 </td>
             </tr>
                 <tr ng-repeat-start="g in table.games">
-                    <td>
-                        {{g.command}}
-                    </td>
                     <td ng-repeat="t in allTours">
-                        {{g.tours[t][0]}}:{{g.tours[t][1]}}
+                        <span ng-show="!g.tours[t].clicked && (g.tours[t][0] || g.tours[t][1])">{{g.tours[t][0]}}:{{g.tours[t][1]}}</span>
                     </td>
                 </tr>
                 <tr ng-repeat-end ng-hide="true"></tr>
@@ -29,14 +26,14 @@
             <tfoot>
                 <tr>
                     <td>Тоталы больше/меньше</td>
-                    <td></td>    
+                    <!-- <td></td>     -->
                     <td ng-repeat="tour in allTours">
                         {{totals[tour].bigger2}}/{{totals[tour].less2}}</br>
                     </td>
                 </tr>
                 <tr>
                     <td>Блоки больше</td>
-                    <td></td>
+                    <!-- <td></td> -->
                     <td ng-repeat="tour in allTours">
                         <span ng-repeat="(bB, count) in totals[tour].allBlocksBigger">
                             {{getInt(bB) + 1}}<sup>{{count}}</sup>                           
@@ -45,7 +42,7 @@
                 </tr>
                 <tr>
                     <td>Блоки меньше</td>
-                    <td></td>
+                    <!-- <td></td> -->
                     <td ng-repeat="tour in allTours">
                      <span ng-repeat="(lB, count) in totals[tour].allBlocksLess">
                         {{getInt(lB) + 1}}<sup>{{count}}</sup>
