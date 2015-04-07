@@ -51,6 +51,45 @@
    <button ng-show="changed" class="button button-large" ng-click="saveToCloud($storage.currentYear)">Сохранить порядок</button>
    <div class="row"></div>
    <div ng-show="selectedTour" class="span">
-       
+        <h2>Поиск комбинаций</h2>
+        <h3>Блоки больше:</h3>   
+        <div class="accordion-heading accordionize ">
+            <a ng-class="biggerNullBlock? 'accordion-toggle selected' : 'accordion-toggle'" ng-click="biggerNullBlock = biggerNullBlock? false: true" data-toggle="collapse">Без блоков</a>
+        </div>
+        <div ng-show="!biggerNullBlock" class="span">
+            <span>Длина блока/количество</span>
+            <nav class="icons-example">
+                <ul>
+                    <li ng-repeat="(block, amount) in findQuery.allBlocksBigger">
+                         {{getInt(block) + 1}}<sup>{{amount}}</sup>
+                        <button class="button button-mini inline" ng-click="deleteBiggerBlock(block)">x</button>
+                    </li>
+                </ul>
+            </nav>
+            <input class="slim" type="number" min="2" ng-model="newBlockBigger">
+            <input class="slim" type="number" min="1" ng-model="amountBlockBigger">
+            <button class="button button-mini inline" ng-click="findQuery.allBlocksBigger[newBlockBigger - 1] = amountBlockBigger;"><span class="font-icon-plus"></span></button>
+        </div>
+        <div class="row"></div>
+        <h3>Блоки меньше:</h3>   
+        <div class="accordion-heading accordionize ">
+            <a ng-class="lessNullBlock? 'accordion-toggle selected' : 'accordion-toggle'" ng-click="lessNullBlock = lessNullBlock? false: true" data-toggle="collapse">Без блоков</a>
+        </div>
+        <div ng-show="!lessNullBlock" class="span">
+            <span>Длина блока/количество</span>
+            <nav class="icons-example">
+                <ul>
+                    <li ng-repeat="(block, amount) in findQuery.allBlocksLess">
+                         {{getInt(block) + 1}}<sup>{{amount}}</sup>
+                        <button class="button button-mini inline" ng-click="deleteLessBlock(block)">x</button>
+                    </li>
+                </ul>
+            </nav>
+            <input class="slim" type="number" min="2" ng-model="newBlockLess">
+            <input class="slim" type="number" min="1" ng-model="amountBlockLess">
+            <button class="button button-mini inline" ng-click="findQuery.allBlocksLess[newBlockLess - 1] = amountBlockLess;"><span class="font-icon-plus"></span></button>
+        </div>
+        <button class="button button-large" ng-click="orderVariants()">Поиск</button>
+        <div>{{findResults}}</div>
    </div>
 </div>

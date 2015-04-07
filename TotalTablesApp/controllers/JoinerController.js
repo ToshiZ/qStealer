@@ -3,8 +3,8 @@ angular.module('TotalTablesApp')
 	.controller('JoinerController', ['$scope', '$localStorage', 'MongoTables', '$http', 'Notification', '$filter', function($scope, $localStorage, MongoTables, $http, Notification, $filter){
         $scope.getAllTours = function(){
             $scope.changed = false;
-            //$scope.allTours = [];
             $scope.$storage = $localStorage;
+            $scope.findQuery = {allBlocksBigger: {}, allBlocksLess: {}};
             if($scope.$storage.currentYear){
                 $scope.tablesByYear = $filter('getByYear')($scope.$storage.mongoTabs, $scope.$storage.currentYear).tables;
             }else{
@@ -15,87 +15,21 @@ angular.module('TotalTablesApp')
         $scope.refreshTotals = function(){            
             $scope.allTours = [];
             $scope.totals = {};
-            // for(var t in $scope.tablesByYear){
-            //     for(var g in $scope.tablesByYear[t].games){
-            //         for(var tour in $scope.tablesByYear[t].games[g].tours){
-            //             if($scope.allTours.indexOf(tour) == -1)
-            //                 $scope.allTours.push(tour);
-            //             if(!$scope.totals.hasOwnProperty(tour)){
-            //                     $scope.totals[tour] = {};
-            //                     $scope.totals[tour]['bigger2'] = 0;
-            //                     $scope.totals[tour]['less2'] = 0;
-            //                     $scope.totals[tour]['lastLess'] = false;
-            //                     $scope.totals[tour]['lastBigger'] = false;
-            //                     $scope.totals[tour]['blockBigger'] = 0;
-            //                     $scope.totals[tour]['blockLess'] = 0;
-            //                     $scope.totals[tour]['allBlocksBigger'] = {};
-            //                     $scope.totals[tour]['allBlocksLess'] = {};
-            //                 }
-            //             if(!$scope.tablesByYear[t].games[g].tours[tour].clicked){
-            //                 if($scope.tablesByYear[t].games[g].tours[tour][0] + 
-            //                     $scope.tablesByYear[t].games[g].tours[tour][1] > 2){
-            //                     $scope.totals[tour].bigger2++;
-            //                     if($scope.totals[tour].lastBigger){
-            //                         $scope.totals[tour].blockBigger++;
-            //                         ////
-            //                     }else{
-            //                         $scope.totals[tour].lastBigger = true;
-            //                         $scope.totals[tour].lastLess = false;
-            //                         if($scope.totals[tour].allBlocksLess
-            //                             .hasOwnProperty($scope.totals[tour].blockLess)){
-            //                             $scope.totals[tour].allBlocksLess[$scope.totals[tour].blockLess]++;
-            //                         }else if($scope.totals[tour].blockLess != 0){
-            //                             $scope.totals[tour].allBlocksLess[$scope.totals[tour].blockLess] = 1;
-            //                         }
-            //                         $scope.totals[tour].blockLess = 0;
-            //                     }
-            //                 }else if($scope.tablesByYear[t].games[g].tours[tour][0] + 
-            //                             $scope.tablesByYear[t].games[g].tours[tour][1] <= 2){
-            //                     $scope.totals[tour].less2++;
-            //                     if($scope.totals[tour].lastLess){
-            //                         $scope.totals[tour].blockLess++;
-            //                         /////
-            //                     }else{
-            //                         $scope.totals[tour].lastLess = true;
-            //                         $scope.totals[tour].lastBigger = false;
-            //                         if($scope.totals[tour].allBlocksBigger
-            //                             .hasOwnProperty($scope.totals[tour].blockBigger)){
-            //                             $scope.totals[tour].allBlocksBigger[$scope.totals[tour].blockBigger]++;
-            //                         }else if($scope.totals[tour].blockBigger != 0){
-            //                             $scope.totals[tour].allBlocksBigger[$scope.totals[tour].blockBigger] = 1;
-            //                         }
-            //                         $scope.totals[tour].blockBigger = 0;
-            //                     }
-            //                 }
-            //             }
-            //         }
-            //     }
-            // }
-            // for(var tour in $scope.totals){
-            //     if($scope.totals[tour].allBlocksBigger
-            //         .hasOwnProperty($scope.totals[tour].blockBigger)){
-            //         $scope.totals[tour].allBlocksBigger[$scope.totals[tour].blockBigger]++;
-            //     }else if($scope.totals[tour].blockBigger != 0){
-            //         $scope.totals[tour].allBlocksBigger[$scope.totals[tour].blockBigger] = 1;
-            //     }
-            //     $scope.totals[tour].blockBigger = 0;
-            //     if($scope.totals[tour].allBlocksLess
-            //         .hasOwnProperty($scope.totals[tour].blockLess)){
-            //         $scope.totals[tour].allBlocksLess[$scope.totals[tour].blockLess]++;
-            //     }else if($scope.totals[tour].blockLess != 0){
-            //         $scope.totals[tour].allBlocksLess[$scope.totals[tour].blockLess] = 1;
-            //     }
-            //     $scope.totals[tour].blockLess = 0;                
-            // }
             $scope.findBlocks($scope.tablesByYear, $scope.totals);
             $scope.allTours.sort(function(a,b){
                 return new Date(a) - new Date(b);
             });
         };
-        $scope.findBlocks = function(tab, totalsVar){
-              for(var t in tab){
-                for(var g in tab[t].games){
-                    for(var tour in tab[t].games[g].tours){
+        $scope.findBlocks = function(tab, totalsVar, combination){
+            var iters = [];
+            if(combination)
+                iters = combination;
+            else
+                for(var i in tab)
+                    iters[i] = i;
+            for(var t = 0; t < iters.length; t++){
+                for(var g in tab[iters[t]].games){
+                    for(var tour in tab[iters[t]].games[g].tours){
                         if($scope.allTours.indexOf(tour) == -1)
                             $scope.allTours.push(tour);
                         if(!totalsVar.hasOwnProperty(tour)){
@@ -109,9 +43,9 @@ angular.module('TotalTablesApp')
                                 totalsVar[tour]['allBlocksBigger'] = {};
                                 totalsVar[tour]['allBlocksLess'] = {};
                             }
-                        if(!tab[t].games[g].tours[tour].clicked){
-                            if(tab[t].games[g].tours[tour][0] + 
-                                tab[t].games[g].tours[tour][1] > 2){
+                        if(!tab[iters[t]].games[g].tours[tour].clicked){
+                            if(tab[iters[t]].games[g].tours[tour][0] + 
+                                tab[iters[t]].games[g].tours[tour][1] > 2){
                                 totalsVar[tour].bigger2++;
                                 if(totalsVar[tour].lastBigger){
                                     totalsVar[tour].blockBigger++;
@@ -127,8 +61,8 @@ angular.module('TotalTablesApp')
                                     }
                                     totalsVar[tour].blockLess = 0;
                                 }
-                            }else if(tab[t].games[g].tours[tour][0] + 
-                                        tab[t].games[g].tours[tour][1] <= 2){
+                            }else if(tab[iters[t]].games[g].tours[tour][0] + 
+                                        tab[iters[t]].games[g].tours[tour][1] <= 2){
                                 totalsVar[tour].less2++;
                                 if(totalsVar[tour].lastLess){
                                     totalsVar[tour].blockLess++;
@@ -165,10 +99,10 @@ angular.module('TotalTablesApp')
                 }
                 totalsVar[tour].blockLess = 0;                
             }
-        };
-        $scope.dragStop = function(){
-            $scope.changed = true;
+        }; 
+        $scope.dragStop = function(){            
             $scope.refreshTotals();
+            $scope.changed = true;
             //$scope.$apply();
         };
         $scope.strToDate = function(str){
@@ -185,25 +119,70 @@ angular.module('TotalTablesApp')
                     $http.put('https://api.mongolab.com/api/1/databases/table_gun_db/collections/tables/' + 
                            year + '?apiKey=4uxrgilMV5QDHqsTP4UdsWG7B8E66KZ1',
                         { 
-                        year: year,
-                        updateAt: $scope.tablesByYear.updateAt,
-                        tables: $scope.$storage.tables
+                            year: year,
+                            updateAt: $scope.tablesByYear.updateAt,
+                            tables: $scope.$storage.tables
                         }).success(function (data, status, headers, config) {
                              Notification.info({message: 'Сохранен в облако.', title: year});
                              $scope.changed = false;
                         }).error(function (data, status, headers, config) { 
                             Notification.error({message: status, title: year});
                         });
-                    }
                 }
+            }
         };
         $scope.selectTour = function(tour){
             $scope.selectedTour = tour;
         };
         $scope.orderVariants = function(){
             var allTabs = $scope.tablesByYear.slice();
+            var tmp = [];
+            for(var i = 0; i < allTabs.length; i++)
+                tmp[i] = i;
+            var combs = combinations(tmp);
+            $scope.findResults = [];
+            for(var i = 0; i < combs.length;){
+                var totalsVar = {};
+                $scope.findBlocks(allTabs, totalsVar, combs[i]);
+                if(!$.isEmptyObject(totalsVar[$scope.selectedTour].allBlocksBigger) && $scope.biggerNullBlock){
+                    combs.splice(i, 1);
+                    continue;
+                }
+                if(!$.isEmptyObject(totalsVar[$scope.selectedTour].allBlocksLess) && $scope.lessNullBlock){
+                    combs.splice(i, 1);
+                    continue;
+                }
+                if(JSON.stringify(totalsVar[$scope.selectedTour].allBlocksBigger) != JSON.stringify($scope.findQuery.allBlocksBigger) && !$.isEmptyObject($scope.findQuery.allBlocksBigger)){
+                    combs.splice(i, 1);
+                    continue;
+                }
+                if(JSON.stringify(totalsVar[$scope.selectedTour].allBlocksLess) != JSON.stringify($scope.findQuery.allBlocksLess) &&!$.isEmptyObject($scope.findQuery.allBlocksLess)){
+                    combs.splice(i, 1);
+                    continue;
+                }
+                i++;
+            }
+            $scope.findResults = combs;
+        };
+        $scope.deleteBiggerBlock = function(block){
+            delete $scope.findQuery.allBlocksBigger[block];
+        };
+        $scope.deleteLessBlock = function(block){
+            delete $scope.findQuery.allBlocksLess[block];
         };
         $scope.$on("$destroy", function(){
             $scope.saveToCloud($scope.$storage.currentYear);
-        });       
+        });     
+        function combinations(arr) {
+        if(arr.length >1){
+            var beg = arr[0],
+                arr1 = combinations(arr.slice(1)),
+                arr2 = [],
+                l = arr1[0].length;
+                for(var i=0; i < arr1.length; i++)
+                    for(var j=0; j <= l; j++)
+                        arr2.push(arr1[i].slice(0,j).concat(beg, arr1[i].slice(j)));
+                return arr2;
+        }else return [arr];
+    }  
 }]);

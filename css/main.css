@@ -700,6 +700,9 @@ td.selected {
 th.selected {
 	background: #DE5E60;
 }
+button.selected {
+	background: #DE5E60;
+}
 
 #thumbs {
 	margin: 0;
