@@ -25,8 +25,8 @@
                     <button class="button button-mini right" ng-click="removeCommad(row.command)">X</button>
                 </td>
                 <td ng-repeat="field in table.tourHeaders" ng-click="selectTour(row.tours[field], row, table.games, $event, field)" ng-class="row.tours[field]['clicked']? 'selected':''">
-                    <input class="slim" type="number" min="0" ng-model="row.tours[field][0]" ng-change="changing()"> :
-                    <input class="slim" type="number" min="0" ng-model="row.tours[field][1]" ng-change="changing()">
+                    <input class="slim" type="number" min="0" ng-model="row.tours[field][0]"> :
+                    <input class="slim" type="number" min="0" ng-model="row.tours[field][1]">
                 </td>
             </tr>
             <tr>

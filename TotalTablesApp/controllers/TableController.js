@@ -11,7 +11,7 @@ angular.module('TotalTablesApp')
             }else{
                 Notification.error('Не выбран год.');
             }   
-        };
+        };       
         $scope.strToDate = function(str){
             var d = new Date(str);
             return (d.getDate()) + '/' + (d.getMonth() + 1); 
@@ -28,7 +28,7 @@ angular.module('TotalTablesApp')
                 $scope.table.tourHeaders.sort(function(a,b){
                     return new Date(a) - new Date(b);
                 });
-                $scope.changing();
+               // $scope.changing();
                 $scope.newTour = '';
             }
         };
@@ -47,7 +47,7 @@ angular.module('TotalTablesApp')
             $scope.table.tourHeaders.splice($scope.table.tourHeaders.indexOf(tourName),1);
             for(var g in $scope.table.games)
                 delete $scope.table.games[g].tours[tourName];
-            $scope.changing();
+           // $scope.changing();
         };
         $scope.removeCommad = function(commandName){
             $scope.table.commands.splice($scope.table.commands.indexOf(commandName),1);
@@ -55,7 +55,7 @@ angular.module('TotalTablesApp')
                 .filter(function (el) {
                         return el.command != commandName;
             });
-            $scope.changing();
+            //$scope.changing();
         };
         $scope.saveToCloud = function (year) {
             if($scope.$storage.currentYear){
@@ -76,11 +76,16 @@ angular.module('TotalTablesApp')
                     }
                 }
         };
+        $scope.$watch('table', function(newValue, oldValue){
+            if(newValue === oldValue)
+                return;
+            $scope.changed = true;
+        }, true);
         $scope.$on("$destroy", function(){
             $scope.saveToCloud($scope.$storage.currentYear);
         });
         $scope.sortableOptions = {
-            stop: $scope.changing(),
+            //stop: $scope.changing(),
             axis: 'y'
         };
         $scope.selectTour = function(t, game, games, e, field){
@@ -96,7 +101,7 @@ angular.module('TotalTablesApp')
                         games[g].tours[field]['clicked'] = true; 
                 }
                 t['clicked'] = t['clicked'] == undefined? true: (t['clicked']? false: true);
-                $scope.changing();
+                //$scope.changing();
             }
         };
         $scope.clearSelected = function(){

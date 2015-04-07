@@ -11,7 +11,7 @@
         </thead>
          <tbody ui-tree-nodes ng-model="tablesByYear">    
             <tr ng-repeat-start="table in tablesByYear" ui-tree-node ng-class-odd="'oddrowcolor'" ng-class-even="'evenrowcolor'">
-                <td ui-tree-handle ng-mouseup="dragStop()" rowspan="{{table.games.length + 1}}">
+                <td ui-tree-handle  rowspan="{{table.games.length + 1}}">
                     {{$storage.translater[table.country]}}
                 </td>
             </tr>
@@ -89,7 +89,17 @@
             <input class="slim" type="number" min="1" ng-model="amountBlockLess">
             <button class="button button-mini inline" ng-click="findQuery.allBlocksLess[newBlockLess - 1] = amountBlockLess;"><span class="font-icon-plus"></span></button>
         </div>
-        <button class="button button-large" ng-click="orderVariants()">Поиск</button>
-        <div>{{findResults}}</div>
+        <button class="button button-large" ng-click="orderVariants()">Поиск</button> 
+        <div class="row"></div>
+        <div ng-show="findResults.length != undefined" class="alert alert-standard fade in">Результатов: {{findResults.length}}</div>    
+        <div class="span">
+            <div class="alert fade in inline" ng-click="selectResult($index)" ng-class="selectedResult == $index? 'alert-error': 'alert-standard'" ng-repeat="findResult in findResults">
+                <ul >
+                    <li ng-repeat="num in findResult">
+                        {{$index + 1}}. {{$storage.translater[names[num]]}}
+                    </li>
+                </ul>
+            </div>
+        </div>
    </div>
 </div>

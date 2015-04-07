@@ -195,6 +195,8 @@
 
 .alert {
   	margin-bottom: 20px;
+    margin-left: 5px;
+    margin-right: 5px;
   	padding: 15px 35px 15px 15px;
 	border: none;
 	text-shadow: none;
@@ -233,7 +235,8 @@
 }
 
 .alert-standard {
-  	background-color: #2C3E50;
+  	background-color: #DCDCDC;
+    color: #696969;
 }
 
 .alert-success {

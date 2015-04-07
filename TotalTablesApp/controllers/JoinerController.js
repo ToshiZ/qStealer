@@ -9,12 +9,15 @@ angular.module('TotalTablesApp')
                 $scope.tablesByYear = $filter('getByYear')($scope.$storage.mongoTabs, $scope.$storage.currentYear).tables;
             }else{
                 Notification.error('Не выбран год.');
-            }   
+            }            
             $scope.refreshTotals();
         };
         $scope.refreshTotals = function(){            
             $scope.allTours = [];
             $scope.totals = {};
+            $scope.names = {};  
+            for(var t in $scope.tablesByYear)
+                $scope.names[t] = $scope.tablesByYear[t].country;
             $scope.findBlocks($scope.tablesByYear, $scope.totals);
             $scope.allTours.sort(function(a,b){
                 return new Date(a) - new Date(b);
@@ -99,7 +102,7 @@ angular.module('TotalTablesApp')
                 }
                 totalsVar[tour].blockLess = 0;                
             }
-        }; 
+        };        
         $scope.dragStop = function(){            
             $scope.refreshTotals();
             $scope.changed = true;
@@ -134,11 +137,17 @@ angular.module('TotalTablesApp')
         $scope.selectTour = function(tour){
             $scope.selectedTour = tour;
         };
+        $scope.selectResult = function(index){
+            $scope.selectedResult = index;
+        };
         $scope.orderVariants = function(){
             var allTabs = $scope.tablesByYear.slice();
             var tmp = [];
-            for(var i = 0; i < allTabs.length; i++)
+            $scope.names = {};
+            for(var i = 0; i < allTabs.length; i++){
                 tmp[i] = i;
+                $scope.names[i] = allTabs[i].country;
+            }
             var combs = combinations(tmp);
             $scope.findResults = [];
             for(var i = 0; i < combs.length;){
@@ -170,6 +179,11 @@ angular.module('TotalTablesApp')
         $scope.deleteLessBlock = function(block){
             delete $scope.findQuery.allBlocksLess[block];
         };
+        $scope.$watchCollection('tablesByYear', function(newValue, oldValue){
+            if(newValue === oldValue)
+                return;
+            $scope.dragStop();
+        });
         $scope.$on("$destroy", function(){
             $scope.saveToCloud($scope.$storage.currentYear);
         });     

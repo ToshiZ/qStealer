@@ -703,6 +703,9 @@ th.selected {
 button.selected {
 	background: #DE5E60;
 }
+div.alert-standard.selected {
+	background: #DE5E60;
+}
 
 #thumbs {
 	margin: 0;
