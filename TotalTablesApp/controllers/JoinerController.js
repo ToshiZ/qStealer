@@ -1,6 +1,7 @@
 'use strict';
 angular.module('TotalTablesApp')
 	.controller('JoinerController', ['$scope', '$localStorage', 'MongoTables', '$http', 'Notification', '$filter', function($scope, $localStorage, MongoTables, $http, Notification, $filter){
+        $scope.factorial = [1, 2, 6, 24, 120, 720, 5040, 40320, 362880, 3628800];
         $scope.getAllTours = function(){
             $scope.changed = false;
             $scope.$storage = $localStorage;
@@ -139,8 +140,14 @@ angular.module('TotalTablesApp')
         };
         $scope.selectResult = function(index){
             $scope.selectedResult = index;
+            var tmp = [];
+            for(var t in $scope.tablesByYear){
+                tmp[t] = $scope.tablesByYear[$scope.findResults[index][t]];
+            }
+            $scope.tablesByYear = tmp.slice();
         };
         $scope.orderVariants = function(){
+            $scope.selectedResult = undefined;
             var allTabs = $scope.tablesByYear.slice();
             var tmp = [];
             $scope.names = {};
