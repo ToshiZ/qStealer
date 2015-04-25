@@ -47,6 +47,15 @@ TotalTablesApp.config( [
         // Angular before v1.2 uses $compileProvider.urlSanitizationWhitelist(...)
     }
 ]);
+// TotalTablesApp.factory('MongoTables', function ($resource) {
+//     var MongoTables = $resource('https://api.mongolab.com/api/1/databases/table_gun_db_dev/collections/tables/:id',
+//     {
+//       apiKey:'6ZElUwz19cgDk30K0KC-ZLQWL8HA5uNZ',
+//       id:'@_id.$oid'
+//     });
+
+//     return MongoTables;
+// });
 TotalTablesApp.factory('MongoTables', function ($resource) {
     var MongoTables = $resource('https://api.mongolab.com/api/1/databases/table_gun_db/collections/tables/:id',
     {

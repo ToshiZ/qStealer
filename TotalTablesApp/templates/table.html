@@ -5,7 +5,7 @@
             <tr>
                 <th class="row-standart">Название команды</th>
                 <th ng-repeat="field in table.tourHeaders" ng-class-odd="'oddrowcolor'" ng-class-even="'evenrowcolor'">
-                    {{strToDate(field)}}
+                    {{strToDate(field).replace('/', '.')}}
                     <button class="button button-mini right" ng-click="removeTour(field)">X</button>
                 </th>
                 <th class="row-standart">

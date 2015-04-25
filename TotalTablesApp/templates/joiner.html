@@ -1,11 +1,11 @@
 <div ng-init="getAllTours()" class="span24">
     <h2>Сводная таблица({{$storage.currentYear}})</h2>
-    <table class="compact altrowstable" ui-tree>
+    <table id='top' class="compact altrowstable" ui-tree>
         <thead>
             <tr>
-                <th class="row-standart">Страна</th>
+                <th class="row-standart">Дата</th>
                 <th ng-repeat="tour in allTours" ng-class-odd="'oddrowcolor'" ng-class-even="'evenrowcolor'" ng-click="selectTour(tour)" ng-class="selectedTour == tour? 'selected':''">
-                    {{strToDate(tour)}}
+                    {{strToDate(tour).replace('/', '.')}}
                 </th>
             </tr>
         </thead>
@@ -17,31 +17,37 @@
             </tr>
                 <tr ng-repeat-start="g in table.games" >
                     <td ng-repeat="t in allTours" ng-class-odd="'oddrowcolor'" ng-class-even="'evenrowcolor'">
-                        <span ng-show="!g.tours [t].clicked && (g.tours[t][0] || g.tours[t][1])">{{g.tours[t][0]}}:{{g.tours[t][1]}}</span>
+                        <span ng-show="!g.tours [t].clicked && ((g.tours[t][0] + g.tours[t][1]) >= 0)">{{g.tours[t][0]}}:{{g.tours[t][1]}}</span>
                     </td>
                 </tr>
                 <tr ng-repeat-end ng-hide="true"></tr>
             <tr ng-repeat-end ng-hide="true"></tr>
             <tfoot>
                 <tr>
-                    <td class="row-standart">Тоталы больше/меньше</td>
+                    <td class="row-standart">ТМ</td>
                     <td ng-repeat="tour in allTours" ng-class-odd="'oddrowcolor'" ng-class-even="'evenrowcolor'">
-                        {{totals[tour].bigger2}}/{{totals[tour].less2}}</br>
+                        {{totals[tour].less2}}
                     </td>
                 </tr>
                 <tr>
-                    <td class="row-standart">Блоки больше</td>
+                    <td class="row-standart">ТБ</td>
+                    <td ng-repeat="tour in allTours" ng-class-odd="'oddrowcolor'" ng-class-even="'evenrowcolor'">
+                        {{totals[tour].bigger2}}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="row-standart">Б</td>
                     <td ng-repeat="tour in allTours" ng-class-odd="'oddrowcolor'" ng-class-even="'evenrowcolor'">
                         <span ng-repeat="(bB, count) in totals[tour].allBlocksBigger">
-                            {{getInt(bB) + 1}}<sup>{{count}}</sup>                           
+                            {{getInt(bB) + 1}}<sup ng-show="count > 1">{{count}}</sup>                           
                         </span>
                     </td>
                 </tr>
                 <tr>
-                    <td class="row-standart">Блоки меньше</td>
+                    <td class="row-standart">М</td>
                     <td ng-repeat="tour in allTours" ng-class-odd="'oddrowcolor'" ng-class-even="'evenrowcolor'">
                          <span ng-repeat="(lB, count) in totals[tour].allBlocksLess">
-                            {{getInt(lB) + 1}}<sup>{{count}}</sup>
+                            {{getInt(lB) + 1}}<sup ng-show="count > 1">{{count}}</sup>
                         </span>
                     </td>
                 </tr>
@@ -54,7 +60,7 @@
             <hr>
         </div>
     </div>
-
+<!-- search -->
     <div ng-show="selectedTour" class="row">
         <!-- Start Blockquote -->
         <h2 class="spec">Поиск комбинаций</h2> 
@@ -120,7 +126,7 @@
             </div>
         </div>          
         <div ng-if="findResults.length < 120" class="span">
-            <div class="alert fade in inline" ng-click="selectResult($index)" ng-class="selectedResult == $index? 'alert-error': 'alert-standard'" ng-repeat="findResult in findResults">
+            <div class="alert fade alert-standard in inline" ng-click="selectResult($index)" ng-repeat="findResult in findResults">
                 <ul >
                     <li ng-repeat="num in findResult">
                         {{$index + 1}}. {{$storage.translater[names[num]]}}

@@ -1,7 +1,6 @@
 'use strict';
 angular.module('TotalTablesApp')
-	.controller('JoinerController', ['$scope', '$localStorage', 'MongoTables', '$http', 'Notification', '$filter', function($scope, $localStorage, MongoTables, $http, Notification, $filter){
-        $scope.factorial = [1, 2, 6, 24, 120, 720, 5040, 40320, 362880, 3628800];
+	.controller('JoinerController', ['$scope', '$localStorage', 'MongoTables', '$http', 'Notification', '$filter', '$location', '$anchorScroll', function($scope, $localStorage, MongoTables, $http, Notification, $filter, $location, $anchorScroll){
         $scope.getAllTours = function(){
             $scope.changed = false;
             $scope.$storage = $localStorage;
@@ -107,7 +106,6 @@ angular.module('TotalTablesApp')
         $scope.dragStop = function(){            
             $scope.refreshTotals();
             $scope.changed = true;
-            //$scope.$apply();
         };
         $scope.strToDate = function(str){
             var d = new Date(str);
@@ -139,12 +137,14 @@ angular.module('TotalTablesApp')
             $scope.selectedTour = tour;
         };
         $scope.selectResult = function(index){
-            $scope.selectedResult = index;
+            //$scope.selectedResult = index;
             var tmp = [];
             for(var t in $scope.tablesByYear){
                 tmp[t] = $scope.tablesByYear[$scope.findResults[index][t]];
             }
             $scope.tablesByYear = tmp.slice();
+            $location.hash('top');
+            $anchorScroll();
         };
         $scope.orderVariants = function(){
             $scope.selectedResult = undefined;

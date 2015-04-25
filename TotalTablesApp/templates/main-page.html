@@ -2,17 +2,20 @@
 	<h1>АРХИВ</h1>
 </div>
 <div class="row"></div>
-<div  ng-repeat="year in $storage.mongoTabs | orderBy: '_id'" class="span">
-	<div  class="accordion-group inline">
-		<div class="accordion-heading accordionize ">
-			<a ng-class="year._id == $storage.currentYear? 'accordion-toggle selected' : 'accordion-toggle'" data-toggle="collapse" ng-click="setYear(year._id)">
-				{{year._id}}		
-			</a>
-		</div>		
+<div class="span12">
+	<div  ng-repeat="year in $storage.mongoTabs | orderBy: '_id'" class="span">
+		<div  class="accordion-group inline">
+			<div class="accordion-heading accordionize ">
+				<a ng-class="year._id == $storage.currentYear? 'accordion-toggle selected' : 'accordion-toggle'" data-toggle="collapse" ng-click="setYear(year._id)">
+					{{year._id}}		
+				</a>
+			</div>		
+		</div>
+		<button class="button button-mini inline" ng-click="deleteYear(year._id)">x</button>
 	</div>
-	<button class="button button-mini inline" ng-click="deleteYear(year._id)">x</button>
 </div>
-<div class="row"></div>
+<div class="row">
+</div>
 <div class="span">
 	<form ng-submit="addYear()">
 		<input type="text" ng-model="newYear" placeholder="Добавить год">
