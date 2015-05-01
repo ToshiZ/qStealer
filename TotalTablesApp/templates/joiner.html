@@ -17,7 +17,7 @@
             </tr>
                 <tr ng-repeat-start="g in table.games" >
                     <td ng-repeat="t in allTours" ng-class-odd="'oddrowcolor'" ng-class-even="'evenrowcolor'">
-                        <span ng-show="!g.tours [t].clicked && ((g.tours[t][0] + g.tours[t][1]) >= 0)">{{g.tours[t][0]}}:{{g.tours[t][1]}}</span>
+                        <span ng-show="!g.tours [t].clicked  && ((g.tours[t][0] + g.tours[t][1]) >= 0)">{{g.tours[t][0]}}:{{g.tours[t][1]}}</span>
                     </td>
                 </tr>
                 <tr ng-repeat-end ng-hide="true"></tr>
@@ -34,20 +34,20 @@
                     <td ng-repeat="tour in allTours" ng-class-odd="'oddrowcolor'" ng-class-even="'evenrowcolor'">
                         {{totals[tour].bigger2}}
                     </td>
-                </tr>
-                <tr>
-                    <td class="row-standart">Б</td>
-                    <td ng-repeat="tour in allTours" ng-class-odd="'oddrowcolor'" ng-class-even="'evenrowcolor'">
-                        <span ng-repeat="(bB, count) in totals[tour].allBlocksBigger">
-                            {{getInt(bB) + 1}}<sup ng-show="count > 1">{{count}}</sup>                           
-                        </span>
-                    </td>
-                </tr>
+                </tr>               
                 <tr>
                     <td class="row-standart">М</td>
                     <td ng-repeat="tour in allTours" ng-class-odd="'oddrowcolor'" ng-class-even="'evenrowcolor'">
                          <span ng-repeat="(lB, count) in totals[tour].allBlocksLess">
                             {{getInt(lB) + 1}}<sup ng-show="count > 1">{{count}}</sup>
+                        </span>
+                    </td>
+                </tr>
+                 <tr>
+                    <td class="row-standart">Б</td>
+                    <td ng-repeat="tour in allTours" ng-class-odd="'oddrowcolor'" ng-class-even="'evenrowcolor'">
+                        <span ng-repeat="(bB, count) in totals[tour].allBlocksBigger">
+                            {{getInt(bB) + 1}}<sup ng-show="count > 1">{{count}}</sup>                           
                         </span>
                     </td>
                 </tr>

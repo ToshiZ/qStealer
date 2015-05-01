@@ -27,6 +27,9 @@
                 <td ng-repeat="field in table.tourHeaders" ng-click="selectTour(row.tours[field], row, table.games, $event, field)" ng-class="row.tours[field]['clicked']? 'selected':''">
                     <input class="slim" type="number" min="0" ng-model="row.tours[field][0]"> :
                     <input class="slim" type="number" min="0" ng-model="row.tours[field][1]">
+                   <!--   <select ng-model="row.tours[field].selectedOpponent" ng-options="color.command as color.command for color in table.games">
+                          <option value="">-</option>
+                     </select> -->
                 </td>
             </tr>
             <tr>

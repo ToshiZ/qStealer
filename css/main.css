@@ -1485,3 +1485,7 @@ table.altrowstable td {
 [x-ng-click] {
     cursor: pointer;
 }
+select{
+	width: auto;
+	margin-top: 10px;
+}

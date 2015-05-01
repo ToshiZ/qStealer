@@ -147,7 +147,7 @@ angular.module('TotalTablesApp')
             $anchorScroll();
         };
         $scope.orderVariants = function(){
-            $scope.selectedResult = undefined;
+            //$scope.selectedResult = undefined;
             var allTabs = $scope.tablesByYear.slice();
             var tmp = [];
             $scope.names = {};
@@ -157,7 +157,8 @@ angular.module('TotalTablesApp')
             }
             var combs = combinations(tmp);
             $scope.findResults = [];
-            for(var i = 0; i < combs.length;){
+            for(var i = 0; i < combs.length;)
+                topLoop: {
                 var totalsVar = {};
                 $scope.findBlocks(allTabs, totalsVar, combs[i]);
                 if(!$.isEmptyObject(totalsVar[$scope.selectedTour].allBlocksBigger) && $scope.biggerNullBlock){
@@ -168,13 +169,17 @@ angular.module('TotalTablesApp')
                     combs.splice(i, 1);
                     continue;
                 }
-                if(JSON.stringify(totalsVar[$scope.selectedTour].allBlocksBigger) != JSON.stringify($scope.findQuery.allBlocksBigger) && !$.isEmptyObject($scope.findQuery.allBlocksBigger)){
-                    combs.splice(i, 1);
-                    continue;
+                for(var q in $scope.findQuery.allBlocksBigger){
+                    if(($scope.findQuery.allBlocksBigger[q] > totalsVar[$scope.selectedTour].allBlocksBigger[q] && !$.isEmptyObject($scope.findQuery.allBlocksBigger)) || (!totalsVar[$scope.selectedTour].allBlocksBigger.hasOwnProperty(q))){
+                        combs.splice(i, 1);
+                        break topLoop;
+                    }
                 }
-                if(JSON.stringify(totalsVar[$scope.selectedTour].allBlocksLess) != JSON.stringify($scope.findQuery.allBlocksLess) &&!$.isEmptyObject($scope.findQuery.allBlocksLess)){
-                    combs.splice(i, 1);
-                    continue;
+                for(var q in $scope.findQuery.allBlocksLess){
+                    if(($scope.findQuery.allBlocksLess[q] > totalsVar[$scope.selectedTour].allBlocksLess[q] && !$.isEmptyObject($scope.findQuery.allBlocksLess)) || (!totalsVar[$scope.selectedTour].allBlocksLess.hasOwnProperty(q))){
+                        combs.splice(i, 1);
+                        break topLoop;
+                    }
                 }
                 i++;
             }
