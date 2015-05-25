@@ -17,7 +17,7 @@
             </tr>
                 <tr ng-repeat-start="g in table.games" >
                     <td ng-repeat="t in allTours" ng-class-odd="'oddrowcolor'" ng-class-even="'evenrowcolor'">
-                        <span ng-show="!g.tours [t].clicked  && ((g.tours[t][0] + g.tours[t][1]) >= 0)">{{g.tours[t][0]}}:{{g.tours[t][1]}}</span>
+                        <span ng-show="!g.tours[t].clicked  && ((g.tours[t][0] + g.tours[t][1]) >= 0) && (g.tours[t][0] !== undefined && g.tours[t][1] !== undefined)">{{g.tours[t][0]}}:{{g.tours[t][1]}}</span>
                     </td>
                 </tr>
                 <tr ng-repeat-end ng-hide="true"></tr>

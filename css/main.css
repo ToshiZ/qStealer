@@ -1489,3 +1489,19 @@ select{
 	width: auto;
 	margin-top: 10px;
 }
+.table-container{
+	overflow-x: scroll;
+}
+/*table{
+	table-layout: fixed;
+	width: 30%;
+}*/
+table.country{
+	table-layout: fixed;
+	width: 50%;
+}
+.col1 { width: 280px; }
+.coln { width: 105px; }
+.finish-row{
+	width: 280px;
+}
