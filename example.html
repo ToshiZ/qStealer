@@ -1,0 +1,71 @@
+133140
+
+
+
+
+
+<div class="check">
+	<script type="text/javascript">
+    $(document).ready(function () {
+    $('h4').click(function () {
+        $.ajax({
+        cache: false,
+        type: "POST",
+        url: "http://baza-otvetov.ru/quiz/check",
+        data: {
+            q_id: $(".q_id").attr("id"),
+            answer: $(this).html()
+        },
+        beforeSend: function(){
+            $(".check").html('<div style="text-align:center;"><img src="http://baza-otvetov.ru/design/images/ajaxloader.gif" /></div>');
+        },
+        success: function(html){
+            $(".check").html(html);
+        },
+        error: function(){
+            $(".check").html('Произошла ошибка, попробуйте обновить страницу.');
+        }
+        });
+    });
+    });
+	</script>
+	<h3 class="q_id" id="133853">Какая планета Солнечной системы имеет 27 спутников?</h3>
+	<center>
+	    <table border="0" cellspacing="10">
+	        <tbody><tr>
+	            <td><h4>Нептун</h4></td>
+	            <td><h4>Юпитер</h4></td>
+	        </tr>
+	        <tr>
+	            <td><h4>Уран</h4></td>
+	            <td><h4>Сатурн</h4></td>
+	        </tr>
+	    </tbody></table>
+	</center>
+</div>
+
+
+<div class="check">
+	<h3>Как в досоветской России называлась стоянка извозчиков?</h3>
+	<h3 style="color:#339966">Правильно!<br><br>Биржа</h3>
+	<h3>Правильно: 1 из 1<br>
+		<a style="font-size:10px" href="http://baza-otvetov.ru/quiz/clear_results">очистить результаты</a>
+	</h3>
+	<h3>
+		<a href="#" onclick="ask(); return false;">еще вопрос</a>
+	</h3>
+</div>
+
+
+<div class="check">
+	<h3>Как в математике называется число, квадрат которого равен "-1"?</h3>
+	<h3 style="color:#990000">Не верно!<br><br>
+		<span style="color:#339966">Правильный ответ: Мнимая единица</span>
+	</h3>
+	<h3>Правильно: 2 из 3<br>
+		<a style="font-size:10px" href="http://baza-otvetov.ru/quiz/clear_results">очистить результаты</a>
+	</h3>
+	<h3>
+		<a href="#" onclick="ask(); return false;">еще вопрос</a>
+	</h3>
+</div>

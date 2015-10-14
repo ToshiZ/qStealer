@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
  	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Table GUN</title>
+    <title>qStealer</title>
     <!-- Mobile Specifics -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="HandheldFriendly" content="true"/>
@@ -48,7 +48,7 @@
 	<script src="js/modernizr.js"></script>
 
 </head>
-<body ng-app="TotalTablesApp">
+<body ng-app="qStealerApp">
 	<!-- Header -->
 	<header>
 	    <div class="sticky-nav">
@@ -60,13 +60,9 @@
 	        
 	        <nav id="menu">
 	        	<ul id="menu-nav">
-	            	<li class="current"><a href="#table/">TABLE GUN</a></li>
-	                <li><a ng-href="#table/england">Англия</a></li>
-	                <li><a ng-href="#table/germany">Германия</a></li>	                
-	                <li><a ng-href="#table/spain">Испания</a></li>
-	                <li><a ng-href="#table/italy">Италия</a></li> 
-	                <li><a ng-href="#table/france">Франция</a></li>
-	                <li><a ng-href="#all">Сводная таблица</a></li>              
+	            	<li class="current"><a href="#main/">qStealer</a></li>
+	                <li><a ng-href="#control/">Управление</a></li>
+	                <li><a ng-href="#done/">Хранилище</a></li>             
 	            </ul>
 	        </nav>
 	    </div>
@@ -95,10 +91,9 @@
 	<script src="js/main.js"></script> <!-- Default JS -->
 
 	<!-- TotalTablesApp -->
-	<script src="TotalTablesApp/TotalTablesApp.js"></script>
-    <script src="TotalTablesApp/controllers/MainController.js"></script>
-	<script src="TotalTablesApp/controllers/JoinerController.js"></script>
-	<script src="TotalTablesApp/controllers/TableController.js"></script>
+	<script src="qStealerApp/qStealerApp.js"></script>
+    <script src="qStealerApp/controllers/ControlController.js"></script>
+	<script src="qStealerApp/controllers/DoneController.js"></script>
 	<!-- End Js -->
 </body>
 </html>

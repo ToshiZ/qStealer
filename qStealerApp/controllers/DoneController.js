@@ -1,6 +1,6 @@
 'use strict';
-angular.module('TotalTablesApp')
-	.controller('JoinerController', ['$scope', '$localStorage', 'MongoTables', '$http', 'Notification', '$filter', '$location', '$anchorScroll', function($scope, $localStorage, MongoTables, $http, Notification, $filter, $location, $anchorScroll){
+angular.module('qStealerApp')
+	.controller('DoneController', ['$scope', '$localStorage', '$http', 'Notification', '$filter', '$location', '$anchorScroll', function($scope, $localStorage, $http, Notification, $filter, $location, $anchorScroll){
         $scope.getAllTours = function(){
             $scope.changed = false;
             $scope.$storage = $localStorage;
