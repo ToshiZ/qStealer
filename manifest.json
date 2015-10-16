@@ -8,8 +8,8 @@
         "128": "128x128.png"
     },
     "permissions": [
-              "http://baza-otvetov.ru/*",
-			  "tabs"
+            "http://baza-otvetov.ru/*",
+			"tabs"
 	],
 	"background" : {
         "page": "background.html"
@@ -18,7 +18,7 @@
 		"all_frames": true,
 		"run_at":"document_end",
         "matches": [
-             "http://baza-otvetov.ru/*"
+            "http://baza-otvetov.ru/*"
         ],
         "js": [  
             "js/jquery-ui-1.11.2.custom/external/jquery/jquery.js",
