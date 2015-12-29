@@ -24,42 +24,45 @@ angular.module('qStealerApp')
         window.chrome.runtime.onMessage.addListener( function(request, sender, sendResponse) {      
                 if (request.askFor == "question"){
                     var qObj = JSON.parse(request.question)
-                    thisScope.currentQuestion = qObj;
+                    thisScope.currentQuestion = qObj;                    
+                    thisScope.tries = ++$localStorage.tries;
 
                     if($localStorage.qIds.length == 0 || $localStorage.qIds.indexOf(qObj.qId) == -1){
                         $localStorage.questions.push(qObj);
                         $localStorage.qIds.push(qObj.qId);
                         thisScope.isNew = true;
                     } else {
-                         thisScope.isNew = false;
+                        thisScope.isNew = false;
+                        var inf = (100 - $localStorage.qIds.length*100/$localStorage.tries).toFixed(2) + '% промахов';
+                        Notification.info({message: inf, title: "Такой уже есть"});
                     }
 
                     thisScope.qAmount = $localStorage.qIds.length;
-                    thisScope.tries = ++$localStorage.tries;
                     thisScope.percentage = thisScope.qAmount*100/thisScope.tries;
                     thisScope.timeCheck = thisScope.timeCheck == undefined ? Date.now() : thisScope.timeCheck;
-                    thisScope.seconds = (((Date.now() - thisScope.timeCheck)/1000) * (thisScope.tries/thisScope.qAmount)).toFixed(1);
+                    var tmpTime = ((Date.now() - thisScope.timeCheck)/1000);
+                    thisScope.seconds = (tmpTime + tmpTime * (thisScope.qAmount/thisScope.tries).toFixed(3)).toFixed(1);
                     thisScope.timeCheck = Date.now();                    
                     $scope.$apply();
                 }
-        });        
+        });                
         thisScope.startSteal = function(){
-            try{
+            // try{
                 chrome.tabs.sendMessage($scope.$storage.csId, {askFor: 'startSteal'});
-            }
-            catch(e)
-            {
-                 Notification.info({message: 'Открой страницу http://baza-otvetov.ru/quiz в новой вкладке. Или перезагрузи страницу базы ответов.', title: "Синхронизация с сайтом"});
-            }
+            // }
+            // catch(e)
+            // {
+            //      Notification.info({message: 'Открой страницу http://baza-otvetov.ru/quiz в новой вкладке. Или перезагрузи страницу базы ответов.', title: "Синхронизация с сайтом"});
+            // }
         }
         thisScope.stopSteal = function(){
-            try{
+            // try{
                 chrome.tabs.sendMessage($scope.$storage.csId, {askFor: 'stopSteal'});
-            }
-            catch(e)
-            {
-                Notification.info({message: 'Открой страницу базы ответов в новой вкладке. Или перезагрузи страницу базы ответов.', title: "Синхронизация с сайтом"});
-            }
+            // }
+            // catch(e)
+            // {
+            //     Notification.info({message: 'Открой страницу базы ответов в новой вкладке. Или перезагрузи страницу базы ответов.', title: "Синхронизация с сайтом"});
+            // }
         }
         thisScope.saveToFile = function(){
             try{
