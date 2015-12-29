@@ -1,15 +1,18 @@
 'use strict';
 angular.module('qStealerApp')
-	.controller('ControlController', ['$scope', '$localStorage', '$http', '$filter', 'Notification', '$rootScope', function($scope, $localStorage, $http, $filter, Notification, $rootScope){
-        var thisScope = this;
-        var ids = $localStorage.qIds;
-        thisScope.currentQuestion = {};
-        thisScope.currentQuestion['qId'] = ids[ids.length - 1];
-        thisScope.qAmount = ids.length;
-		 $rootScope.$storage = $localStorage.$default({
+	.controller('ControlController', ['$scope', '$localStorage', '$http', '$filter', 'Notification', '$rootScope','jsonOperations', function($scope, $localStorage, $http, $filter, Notification, $rootScope, jsonOperations){
+        $rootScope.$storage = $localStorage.$default({
              qIds: [],
-             questions : []
+             questions : [],
+             tries : 0
         });
+        
+        var thisScope = this;
+        thisScope.isNew = false;
+        thisScope.currentQuestion = {};
+        thisScope.currentQuestion['qId'] = $localStorage.qIds[$localStorage.qIds.length - 1];
+        thisScope.qAmount = $localStorage.qIds.length;
+        thisScope.tries = $localStorage.tries;		 
         window.chrome.runtime.onMessage.addListener( function(request, sender, sendResponse) {      
                 if (request.askFor == "contentScriptId"){
                     if( $scope.$storage.csId === undefined || 
@@ -22,22 +25,41 @@ angular.module('qStealerApp')
                 if (request.askFor == "question"){
                     var qObj = JSON.parse(request.question)
                     thisScope.currentQuestion = qObj;
-                    thisScope.qAmount = ids.length;
-                    $scope.$apply();
-                    if($localStorage.qIds.indexOf(qObj.qId) == -1){
+
+                    if($localStorage.qIds.length == 0 || $localStorage.qIds.indexOf(qObj.qId) == -1){
                         $localStorage.questions.push(qObj);
                         $localStorage.qIds.push(qObj.qId);
-                        $rootScope.$broadcast('qCurrent', qObj);
-                        console.log(request.question);
+                        thisScope.isNew = true;
                     } else {
-                        $rootScope.$broadcast('qCurrentSame', qObj);
+                         thisScope.isNew = false;
                     }
+
+                    thisScope.qAmount = $localStorage.qIds.length;
+                    thisScope.tries = ++$localStorage.tries;
+                    thisScope.percentage = thisScope.qAmount*100/thisScope.tries;
+                    thisScope.timeCheck = thisScope.timeCheck == undefined ? Date.now() : thisScope.timeCheck;
+                    //thisScope.seconds = (Date.now() - thisScope.timeCheck)/1000;
+                    thisScope.seconds = (((Date.now() - thisScope.timeCheck)/1000) * (thisScope.tries/thisScope.qAmount)).toFixed(1);
+                    thisScope.timeCheck = Date.now();                    
+                    $scope.$apply();
                 }
         });
-        this.startSteal = function(){
+        thisScope.startSteal = function(){
             chrome.tabs.sendMessage($scope.$storage.csId, {askFor: 'startSteal'});
         }
-        this.stopSteal = function(){
+        thisScope.stopSteal = function(){
             chrome.tabs.sendMessage($scope.$storage.csId, {askFor: 'stopSteal'});
+        }
+        thisScope.saveToFile = function(){
+           var blob = new Blob([JSON.stringify($localStorage.questions)], {type: 'json/application'});
+                saveAs(blob, "storage.json");
+        }
+        thisScope.clearAll = function(){
+            $localStorage.$reset();
+            $localStorage.$default({
+                qIds: [],
+                questions : [],
+                tries : 0
+            });
         }
 }]);

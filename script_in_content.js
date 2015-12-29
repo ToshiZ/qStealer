@@ -40,15 +40,14 @@ function getQuestion(){
 $(function(){
 	chrome.runtime.sendMessage({askFor: 'contentScriptId'});
 	chrome.runtime.onMessage.addListener( function(request, sender, sendResponse) {      
-            if (request.askFor == "startSteal"){
-               		getQuestion();
-            }
+        if (request.askFor == "startSteal"){
+           		getQuestion();
+        }
     });
     chrome.runtime.onMessage.addListener( function(request, sender, sendResponse) {      
             if (request.askFor == "stopSteal"){
                		clearInterval(checkExist);
                		clearInterval(checkExistInner);
-               		//window.reload();
             }
     });
 

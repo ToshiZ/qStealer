@@ -8,8 +8,9 @@
         "128": "128x128.png"
     },
     "permissions": [
-            "http://baza-otvetov.ru/*",
-			"tabs"
+        "http://baza-otvetov.ru/*",
+		"tabs",
+        {"fileSystem": ["write"]}
 	],
 	"background" : {
         "page": "background.html"

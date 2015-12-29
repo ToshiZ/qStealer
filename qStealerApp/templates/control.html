@@ -4,29 +4,16 @@
 <div class="row"></div>
 <button class="button button-big inline" ng-click="contrl.startSteal()">Старт</button>
 <button class="button button-big inline" ng-click="contrl.stopSteal()">Пауза</button>
-<button class="button button-big inline" ng-click="">Сохранить в файл</button>
+<button class="button button-big inline" ng-click="contrl.saveToFile()">Сохранить в файл</button>
+<button class="button button-big inline" ng-click="contrl.clearAll()">Очистить кэш</button>
 
 <div class="span12">
     <h2>Вопросы</h2>
-    <div class="row"></div>
-    <div class="span6">                               
-        <blockquote>
-            <h3>id<span class="color-text" ng-bind="contrl.currentQuestion.qId"></span></h3>
-            <h3>Всего: <span class="color-text" ng-bind="contrl.qAmount"></span></h3>
-           <div class="accordion-heading accordionize ">
-                <a ng-class="biggerNullBlock? 'accordion-toggle selected' : 'accordion-toggle'" ng-click="biggerNullBlock = biggerNullBlock? false: true" data-toggle="collapse" class="accordion-toggle">Без блоков</a>
-            </div>
-            <div ng-show="!biggerNullBlock" class="span">
-                <span>Длина блока/количество</span>
-                <nav class="icons-example">
-                    <ul>
-                        <!-- ngRepeat: (block, amount) in findQuery.allBlocksBigger -->
-                    </ul>
-                </nav>
-                <input class="slim ng-pristine ng-untouched ng-valid ng-valid-min" type="number" min="2" ng-model="newBlockBigger"> / 
-                <input class="slim ng-pristine ng-untouched ng-valid ng-valid-min" type="number" min="1" ng-model="amountBlockBigger" ng-init="amountBlockBigger=1">
-                <button class="button button-mini inline" ng-click="findQuery.allBlocksBigger[newBlockBigger - 1] = amountBlockBigger;"><span class="font-icon-plus"></span></button>
-            </div>
-        </blockquote>
-    </div>
+    <div class="row"></div>                          
+    <blockquote>
+        <h3>id: <span ng-class="contrl.isNew ? 'color-text' : '' " ng-bind="contrl.currentQuestion.qId"></span></h3>
+        <h3>Всего: <span ng-class="contrl.isNew ? 'color-text' : '' " ng-bind="contrl.qAmount + '(' + contrl.tries + ') ' +  + ' 1 уникальный вопрос/' + contrl.seconds + 'c'"></span></h3>
+        <h3>Вопрос: <span ng-class="contrl.isNew ? 'color-text' : '' " ng-bind="contrl.currentQuestion.qBody"></span></h3>
+        <h3><span ng-repeat="answ in contrl.currentQuestion.answers" ng-bind="$index+1 + ') ' + answ + '; '" ng-class="answ == contrl.currentQuestion.truth ? 'color-text' : '' "></span></h3>
+    </blockquote>
 </div>
