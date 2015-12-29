@@ -1,5 +1,7 @@
 var extTabId = localStorage.getItem('extTabId')? parseInt(localStorage.getItem('extTabId')): undefined;
+// var pause = localStorage.getItem('pause')? parseInt(localStorage.getItem('pause')): 1;
 var checkExist, checkExistInner;
+
 function getQuestion(){
 	var qObj = {},
 		qElement = $('h3.q_id'),
@@ -38,16 +40,28 @@ function getQuestion(){
 	}, 1000);
 }
 $(function(){
+	// if(pause == 0){
+	// 	getQuestion();
+	// }
 	chrome.runtime.sendMessage({askFor: 'contentScriptId'});
 	chrome.runtime.onMessage.addListener( function(request, sender, sendResponse) {      
         if (request.askFor == "startSteal"){
            		getQuestion();
-        }
+           		// pause = 0;
+           		// localStorage.setItem('pause', 0);
+           	}
     });
+    // chrome.runtime.onMessage.addListener( function(request, sender, sendResponse) {      
+    //     if (request.askFor == "reload"){
+    //        		location.reload();
+    //        	}
+    // });
     chrome.runtime.onMessage.addListener( function(request, sender, sendResponse) {      
             if (request.askFor == "stopSteal"){
                		clearInterval(checkExist);
                		clearInterval(checkExistInner);
+               		//pause = 1;
+           			// localStorage.setItem('pause', 1);
             }
     });
 

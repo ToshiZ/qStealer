@@ -38,21 +38,37 @@ angular.module('qStealerApp')
                     thisScope.tries = ++$localStorage.tries;
                     thisScope.percentage = thisScope.qAmount*100/thisScope.tries;
                     thisScope.timeCheck = thisScope.timeCheck == undefined ? Date.now() : thisScope.timeCheck;
-                    //thisScope.seconds = (Date.now() - thisScope.timeCheck)/1000;
                     thisScope.seconds = (((Date.now() - thisScope.timeCheck)/1000) * (thisScope.tries/thisScope.qAmount)).toFixed(1);
                     thisScope.timeCheck = Date.now();                    
                     $scope.$apply();
                 }
-        });
+        });        
         thisScope.startSteal = function(){
-            chrome.tabs.sendMessage($scope.$storage.csId, {askFor: 'startSteal'});
+            try{
+                chrome.tabs.sendMessage($scope.$storage.csId, {askFor: 'startSteal'});
+            }
+            catch(e)
+            {
+                 Notification.info({message: 'Открой страницу http://baza-otvetov.ru/quiz в новой вкладке. Или перезагрузи страницу базы ответов.', title: "Синхронизация с сайтом"});
+            }
         }
         thisScope.stopSteal = function(){
-            chrome.tabs.sendMessage($scope.$storage.csId, {askFor: 'stopSteal'});
+            try{
+                chrome.tabs.sendMessage($scope.$storage.csId, {askFor: 'stopSteal'});
+            }
+            catch(e)
+            {
+                Notification.info({message: 'Открой страницу базы ответов в новой вкладке. Или перезагрузи страницу базы ответов.', title: "Синхронизация с сайтом"});
+            }
         }
         thisScope.saveToFile = function(){
-           var blob = new Blob([JSON.stringify($localStorage.questions)], {type: 'json/application'});
-                saveAs(blob, "storage.json");
+            try{
+                var blob = new Blob([JSON.stringify($localStorage.questions)], {type: 'json/application'});
+                    saveAs(blob, "storage.json");
+            }
+            catch(e){
+                Notification.error({message: e.message, title: e.name});
+            }
         }
         thisScope.clearAll = function(){
             $localStorage.$reset();
