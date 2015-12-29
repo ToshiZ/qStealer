@@ -1,5 +1,5 @@
 'use strict';
-var qStealerApp = angular.module('qStealerApp', ['ngResource','ngRoute', 'ngStorage', 'ui.sortable', 'ui.tree', 'ui-notification']);
+var qStealerApp = angular.module('qStealerApp', ['ngResource','ngRoute', 'ngStorage', 'ui-notification']);
 qStealerApp.config(['$routeProvider', '$locationProvider',function ($routeProvider, $locationProvider) {
 		  $routeProvider
 		    .when('/main',

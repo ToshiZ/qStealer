@@ -1,6 +1,6 @@
 'use strict';
 angular.module('qStealerApp')
-	.controller('ControlController', ['$scope', '$localStorage', '$http', '$filter', 'Notification', '$rootScope','jsonOperations', function($scope, $localStorage, $http, $filter, Notification, $rootScope, jsonOperations){
+	.controller('ControlController', ['$scope', '$localStorage', 'Notification', '$rootScope','jsonOperations', function($scope, $localStorage, Notification, $rootScope, jsonOperations){
         $rootScope.$storage = $localStorage.$default({
              qIds: [],
              questions : [],
@@ -47,22 +47,10 @@ angular.module('qStealerApp')
                 }
         });                
         thisScope.startSteal = function(){
-            // try{
                 chrome.tabs.sendMessage($scope.$storage.csId, {askFor: 'startSteal'});
-            // }
-            // catch(e)
-            // {
-            //      Notification.info({message: 'Открой страницу http://baza-otvetov.ru/quiz в новой вкладке. Или перезагрузи страницу базы ответов.', title: "Синхронизация с сайтом"});
-            // }
         }
         thisScope.stopSteal = function(){
-            // try{
-                chrome.tabs.sendMessage($scope.$storage.csId, {askFor: 'stopSteal'});
-            // }
-            // catch(e)
-            // {
-            //     Notification.info({message: 'Открой страницу базы ответов в новой вкладке. Или перезагрузи страницу базы ответов.', title: "Синхронизация с сайтом"});
-            // }
+                chrome.tabs.sendMessage($scope.$storage.csId, {askFor: 'stopSteal'});           
         }
         thisScope.saveToFile = function(){
             try{
