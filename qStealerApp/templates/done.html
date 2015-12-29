@@ -3,7 +3,8 @@
     <div class="row"></div>
     <div class="span6">                               
         <blockquote>
-           <h3>id {{qNow.qId}} <span class="color-text">тоталов больше</span></h3>
+            <h3>id<span class="color-text" ng-bind="done.currentQuestion.qId"></span></h3>
+            <h3>Всего: <span class="color-text" ng-bind="done.qAmount"></span></h3>
            <div class="accordion-heading accordionize ">
                 <a ng-class="biggerNullBlock? 'accordion-toggle selected' : 'accordion-toggle'" ng-click="biggerNullBlock = biggerNullBlock? false: true" data-toggle="collapse" class="accordion-toggle">Без блоков</a>
             </div>

@@ -1,4 +1,5 @@
 var extTabId = localStorage.getItem('extTabId')? parseInt(localStorage.getItem('extTabId')): undefined;
+var checkExist, checkExistInner;
 function getQuestion(){
 	var qObj = {},
 		qElement = $('h3.q_id'),
@@ -13,7 +14,7 @@ function getQuestion(){
 	];
 	answersElement[0].click();
 
-	var checkExist = setInterval(function() {
+	checkExist = setInterval(function() {
 	   if ($('h3[style]').length) {
 	      	if($('h3[style]').html().indexOf('Не верно!') != -1){
 				qObj.truth = $('h3[style]').html().split('Правильный ответ:')[1].replace("\<\/span>", '').trim();
@@ -26,10 +27,10 @@ function getQuestion(){
 			
 		    clearInterval(checkExist);
 			$('div.check a')[1].click();
-			var checkExist2 = setInterval(function() {
+			checkExistInner = setInterval(function() {
 	   			if ($('h3.q_id').length) {
 	   				getQuestion();
-	   				clearInterval(checkExist2);
+	   				clearInterval(checkExistInner);
 	   			}
 
 	   		});
@@ -41,6 +42,13 @@ $(function(){
 	chrome.runtime.onMessage.addListener( function(request, sender, sendResponse) {      
             if (request.askFor == "startSteal"){
                		getQuestion();
+            }
+    });
+    chrome.runtime.onMessage.addListener( function(request, sender, sendResponse) {      
+            if (request.askFor == "stopSteal"){
+               		clearInterval(checkExist);
+               		clearInterval(checkExistInner);
+               		//window.reload();
             }
     });
 

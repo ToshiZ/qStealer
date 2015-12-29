@@ -4,13 +4,16 @@ qStealerApp.config(['$routeProvider', '$locationProvider',function ($routeProvid
 		  $routeProvider
 		    .when('/main',
 		      { templateUrl: 'qStealerApp/templates/control.html',
-		        controller: "ControlController" })
+		        controller: "ControlController",
+		        controllerAs: "contrl"})
 		    .when('/control',
 		      { templateUrl: 'qStealerApp/templates/control.html',
-		        controller: "ControlController" })
-		    .when('/done',
-		      { templateUrl: 'qStealerApp/templates/done.html',
-		        controller: "DoneController" })
+		        controller: "ControlController",
+		        controllerAs: "contrl"})
+		    // .when('/done',
+		    //   { templateUrl: 'qStealerApp/templates/done.html',
+		    //     controller: "DoneController",
+		    // 	controllerAs: "done"})
 		    .otherwise({ redirectTo: '/main' });
 	}]);
 qStealerApp.config( [
